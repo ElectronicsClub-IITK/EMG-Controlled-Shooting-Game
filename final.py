@@ -41,7 +41,7 @@ cutoff = 9
 order = 5
 
 # Threshold for detecting sudden changes in the envelope
-THRESHOLD_HIGH = 13
+THRESHOLD_HIGH = 15
 THRESHOLD_HIGH2 = 10 # Adjust as needed based on your signal characteristics
 THRESHOLD_LOW = 6
 
@@ -138,11 +138,20 @@ def update_plot():
     
         x2 = detect_changes2(envelope2)
         x1 = detect_changes(envelope1)
-        if x2 is not None:
+        if x1 !=None and x2 != None:
+            x2=0
             print(x2*2)
             x2=str(2*x2)
             sock.sendall(x2.encode("utf-8"))
-        if x1 is not None:
+        elif x2 is not None :
+            if x1 is None :
+                x2 =1
+            print(x2*2)
+            x2=str(2*x2)
+            sock.sendall(x2.encode("utf-8"))
+        elif x1 is not None :
+            if x2 is None:
+                x1 =1
             print(f"{x1}")
             x1=str(x1)
             sock.sendall(x1.encode("utf-8"))
